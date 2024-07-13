@@ -1,9 +1,10 @@
 import express from 'express';
-import {createPhoto} from "../controllers/photoController.js";
+import {createPhoto, getAllPhotos} from "../controllers/photoController.js";
 
 const router = express.Router();
 
-router.post("/", createPhoto);
+router.get("/", await getAllPhotos);
+router.post("/", await createPhoto);
 
 
 export default router;
