@@ -201,9 +201,6 @@ function navLinkClick() {
   }
 }
 
-
-
-
 /* date_picker js */
 
 $(function () {
@@ -211,3 +208,4 @@ $(function () {
     defaultDate: "09/22/2019"
   });
 });
+
