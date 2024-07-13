@@ -19,4 +19,4 @@ app.use(express.static("public"));
 // router
 app.use("/", pageRouter);
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, ()  => console.log(`Listening on port ${port}`));
