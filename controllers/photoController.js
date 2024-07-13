@@ -30,7 +30,23 @@ const getAllPhotos = async (req, res) => {
     }
 }
 
+const getAPhoto = async (req, res) => {
+    try {
+        const photo = await Photo.findById({
+            _id: req.params.id
+        });
+
+        res.render('photo', {photo})
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err
+        })
+    }
+}
+
 export {
     createPhoto,
-    getAllPhotos
+    getAllPhotos,
+    getAPhoto,
 }
