@@ -3,8 +3,11 @@ import {getAboutPage, getIndexPage} from "../controllers/pageController.js";
 import photoRouter from "./photoRouter.js";
 import authRouter from "./authRouter.js";
 import dashboardRouter from "./dashboardRouter.js";
+import {checkUser} from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
+
+router.route("*").get(await checkUser);
 
 router.route("/").get(getIndexPage);
 router.route("/about").get(getAboutPage);

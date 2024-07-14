@@ -6,7 +6,7 @@ const authenticateToken = async (req, res, next) => {
         const token = req.cookies?.jwt;
 
         if (token) {
-            jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            jwt.verify(token, process.env.JWT_SECRET, (err) => {
                 if (err) {
                     console.log(err.message);
                     res.redirect("auth/login")
@@ -28,6 +28,28 @@ const authenticateToken = async (req, res, next) => {
 
 }
 
+const checkUser = async (req, res, next) => {
+    const token = req.cookies?.jwt;
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+
+                console.log(err.message);
+                res.locals.user = null;
+                next();
+            } else {
+
+                res.locals.user = await User.findById(decoded.userId,);
+                next();
+            }
+        })
+    } else {
+
+        res.locals.user = null;
+        next();
+    }
+}
+
 export {
-    authenticateToken
+    authenticateToken, checkUser
 }

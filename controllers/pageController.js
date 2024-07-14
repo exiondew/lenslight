@@ -1,5 +1,4 @@
 const getIndexPage = (req, res) => {
-    console.log("REQUEST USER: ", req.user);
     res.render('index');
 }
 const getAboutPage = (req, res) => {
@@ -15,11 +14,15 @@ const getLoginPage = (req, res) => {
 const getDashboardPage = (req, res) => {
     res.render('dashboard');
 }
-
+const getLogout = (req, res) => {
+    res.clearCookie('jwt');
+    res.redirect('/');
+}
 export {
     getAboutPage,
     getIndexPage,
     getLoginPage,
     getRegisterPage,
-    getDashboardPage
+    getDashboardPage,
+    getLogout
 }
