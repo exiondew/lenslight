@@ -1,15 +1,13 @@
 import User from '../models/UserModel.js';
 import bcrypt from "bcryptjs";
+import jwt from 'jsonwebtoken';
 
 const createUser = async (req, res) => {
     try {
         const user = await User.create(req.body);
 
 
-        res.status(201).json({
-            succeded: true,
-            user
-        })
+        res.render("register")
     } catch (err) {
         res.status(500).json({
             success: false,
@@ -36,7 +34,10 @@ const loginUser = async (req, res) => {
         }
 
         if (same) {
-            return res.status(200).send("You have successfully logged in");
+            return res.status(200).json({
+                user,
+                token: createToken(user._id)
+            })
         } else {
             return res.status(401).json({
                 success: false,
@@ -52,7 +53,11 @@ const loginUser = async (req, res) => {
     }
 }
 
-
+const createToken = (userId) => {
+    return jwt.sign({userId}, process.env.JWT_SECRET, {
+        expiresIn: '1d'
+    })
+}
 export {
     createUser,
     loginUser
