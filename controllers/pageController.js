@@ -12,9 +12,14 @@ const getLoginPage = (req, res) => {
     res.render('login');
 }
 
+const getDashboardPage = (req, res) => {
+    res.render('dashboard');
+}
+
 export {
     getAboutPage,
     getIndexPage,
     getLoginPage,
-    getRegisterPage
+    getRegisterPage,
+    getDashboardPage
 }
