@@ -7,7 +7,7 @@ import {checkUser} from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("*").get(await checkUser);
+router.use("*", await checkUser);
 
 router.route("/").get(getIndexPage);
 router.route("/about").get(getAboutPage);

@@ -1,3 +1,5 @@
+import Photo from "../models/PhotoModel.js";
+
 const getIndexPage = (req, res) => {
     res.render('index');
 }
@@ -11,18 +13,14 @@ const getLoginPage = (req, res) => {
     res.render('login');
 }
 
-const getDashboardPage = (req, res) => {
-    res.render('dashboard');
+const getDashboardPage = async (req, res) => {
+    const photos = await Photo.find({user: res.locals.user._id})
+    res.render('dashboard', {photos});
 }
 const getLogout = (req, res) => {
     res.clearCookie('jwt');
     res.redirect('/');
 }
 export {
-    getAboutPage,
-    getIndexPage,
-    getLoginPage,
-    getRegisterPage,
-    getDashboardPage,
-    getLogout
+    getAboutPage, getIndexPage, getLoginPage, getRegisterPage, getDashboardPage, getLogout
 }

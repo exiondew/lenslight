@@ -2,13 +2,14 @@ import Photo from '../models/PhotoModel.js';
 
 const createPhoto = async (req, res) => {
     try {
-        const photo = await Photo.create(req.body);
+        const {name, description} = req.body;
+        await Photo.create({
+            name,
+            description,
+            user: res.locals.user._id,
+        });
 
-
-        res.status(201).json({
-            succeded: true,
-            photo
-        })
+        res.status(201).redirect("/dashboard");
     } catch (err) {
         res.status(500).json({
             success: false,

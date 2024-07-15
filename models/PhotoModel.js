@@ -15,6 +15,10 @@ const schema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }
 })
 
 const Photo = mongoose.model('Photo', schema)
