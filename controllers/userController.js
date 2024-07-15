@@ -3,16 +3,44 @@ import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 
 const createUser = async (req, res) => {
+
     try {
+        const findUser = await User.findOne({
+            $or: [{username: req.body.username}, {email: req.body.email}]
+        });
+
+        if (findUser) {
+            const checkUsername = findUser.username === req.body.username;
+            const checkEmail = findUser.email === req.body.email;
+            let errors = {};
+
+            if (checkEmail && checkUsername) {
+                errors["email"] = "Email is already in use";
+                errors["username"] = "Username is already in use";
+
+            } else if (findUser.username === req.body.username) {
+                errors["username"] = "Username is already in use";
+            } else {
+                errors["email"] = "Email is already in use";
+            }
+
+            return res.status(201).json(errors);
+        }
         const user = await User.create(req.body);
 
+        res.status(201).json({success: true});
 
-        res.redirect("auth/login")
-    } catch (err) {
-        res.status(500).json({
-            success: false,
-            message: err
-        })
+    } catch (error) {
+
+        let errors = {};
+
+        if (error.name === "ValidationError") {
+            Object.keys(error.errors).forEach((key) => {
+                errors[key] = error.errors[key].message;
+            })
+        }
+
+        res.status(400).json(errors);
     }
 }
 
@@ -28,8 +56,7 @@ const loginUser = async (req, res) => {
             same = await bcrypt.compare(password, user.password);
         } else {
             return res.status(401).json({
-                success: false,
-                message: "There is no such user"
+                success: false, message: "There is no such user"
             })
         }
 
@@ -42,15 +69,13 @@ const loginUser = async (req, res) => {
 
         } else {
             return res.status(401).json({
-                success: false,
-                message: "Passwords do not match"
+                success: false, message: "Passwords do not match"
             })
         }
 
     } catch (err) {
         res.status(500).json({
-            success: false,
-            message: err
+            success: false, message: err
         })
     }
 }
@@ -61,6 +86,5 @@ const createToken = (userId) => {
     })
 }
 export {
-    createUser,
-    loginUser
+    createUser, loginUser
 }
