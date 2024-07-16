@@ -1,0 +1,61 @@
+<%- include("partials/head") %>
+<!-- body -->
+
+<!-- loader  -->
+<%- include("partials/loader") %>
+<!-- end loader -->
+
+<!-- header -->
+<%- include("partials/header") %>
+<!-- end header inner -->
+
+<!--  customers -->
+<div class="customers">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="titlepage text_align_center">
+          <h2><%= user.username %></h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="satteb text_align_center">
+          <p>
+            fact that a reader will be distracted by the readable content of a
+            page when looking at its layout. The point of using Lorem Ipsum is
+            that itfact that a reader will be distracted by the readable content
+            of a page when looking at its layout. The point of using Lorem Ipsum
+            is that itfact that a reader will be distracted by the readable
+            content of a page when looking at its layout. The point of using
+            Lorem Ipsum is that itfact that a reader will be distracted by the
+            readable content of a page when looking at its layout. The point of
+            using Lorem Ipsum is that it
+          </p>
+          <h3>The point of using</h3>
+          <i><img src="/images/custo.jpg" alt="<%= user.username %> Icon" /></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end customers  -->
+
+<div class="gallery">
+  <div class="container_with">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="titlepage text_align_center">
+          <h2>Your Photos</h2>
+        </div>
+      </div>
+    </div>
+    <div class="tz-gallery">
+      <div class="row"><%- include("partials/photos", {photos}) %></div>
+    </div>
+  </div>
+</div>
+
+<!-- end footer -->
+<%- include("partials/footer") %>

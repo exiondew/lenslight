@@ -11,97 +11,107 @@
 <!-- end header inner -->
 <!-- contact -->
 <div class="contact">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 ">
-                <div class="titlepage text_align_center">
-                    <h2>Register</h2>
-                </div>
-            </div>
-            <div class="col-md-8 offset-md-2">
-                <form id="request" class="main_form" method="post">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <input class="form_control" placeholder="Username" type="text" name="username">
-                        </div>
-                        <%- include("partials/error", {name: "username"}) %>
-                        <div class="col-md-12">
-                            <input class="form_control" placeholder="Email" type="email" name="email">
-                        </div>
-                        <%- include("partials/error", {name: "email"}) %>
-
-                        <div class="col-md-12">
-                            <input class="form_control" placeholder="Password" type="password" name="password">
-                        </div>
-                        <%- include("partials/error", {name: "password"}) %>
-
-                        <div class="col-md-12">
-                            <div class="group_form">
-                                <button class="send_btn">Register</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="titlepage text_align_center">
+          <h2>Register</h2>
         </div>
+      </div>
+      <div class="col-md-8 offset-md-2">
+        <form id="request" class="main_form" method="post">
+          <div class="row">
+            <div class="col-md-12">
+              <input
+                class="form_control"
+                placeholder="Username"
+                type="text"
+                name="username"
+              />
+            </div>
+            <%- include("partials/error", {name: "username"}) %>
+            <div class="col-md-12">
+              <input
+                class="form_control"
+                placeholder="Email"
+                type="email"
+                name="email"
+              />
+            </div>
+            <%- include("partials/error", {name: "email"}) %>
+
+            <div class="col-md-12">
+              <input
+                class="form_control"
+                placeholder="Password"
+                type="password"
+                name="password"
+              />
+            </div>
+            <%- include("partials/error", {name: "password"}) %>
+
+            <div class="col-md-12">
+              <div class="group_form">
+                <button class="send_btn">Register</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
+  const form = document.querySelector("form");
+  const usernameError = document.querySelector("#username-error");
+  const passwordError = document.querySelector("#password-error");
+  const emailError = document.querySelector("#email-error");
 
-    const form = document.querySelector("form");
-    const usernameError = document.querySelector("#username-error");
-    const passwordError = document.querySelector("#password-error");
-    const emailError = document.querySelector("#email-error");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+    emailError.textContent = "";
+    usernameError.textContent = "";
+    passwordError.textContent = "";
 
-        emailError.textContent = "";
-        usernameError.textContent = "";
-        passwordError.textContent = "";
+    usernameError.style.display = "none";
+    emailError.style.display = "none";
+    passwordError.style.display = "none";
 
-        usernameError.style.display = "none";
-        emailError.style.display = "none";
-        passwordError.style.display = "none";
+    const email = form.email.value;
+    const username = form.username.value;
+    const password = form.password.value;
 
-        const email = form.email.value;
-        const username = form.username.value;
-        const password = form.password.value;
+    try {
+      const res = await fetch("/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
+      });
 
-        try {
+      const data = await res.json();
 
-            const res = await fetch("/auth/register", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({username, email, password})
-            });
-
-            const data = await res.json();
-
-            if (data?.success) {
-                location.assign("/auth/login");
-            } else {
-                if (data.username) {
-                    usernameError.textContent = data.username;
-                    usernameError.style.display = "block";
-                }
-                if (data.email) {
-                    emailError.textContent = data.email;
-                    emailError.style.display = "block";
-                }
-                if (data.password) {
-                    passwordError.textContent = data.password;
-                    passwordError.style.display = "block";
-                }
-            }
-
-        } catch (e) {
-            console.log(e)
+      if (data?.success) {
+        location.assign("/auth/login");
+      } else {
+        if (data.username) {
+          usernameError.textContent = data.username;
+          usernameError.style.display = "block";
         }
-
-    })
-
+        if (data.email) {
+          emailError.textContent = data.email;
+          emailError.style.display = "block";
+        }
+        if (data.password) {
+          passwordError.textContent = data.password;
+          passwordError.style.display = "block";
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  });
 </script>
 <!-- end contact -->
 <!-- end footer -->

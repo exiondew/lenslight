@@ -1,0 +1,24 @@
+<%- include("partials/head")%> <%- include("partials/loader")%>
+<!-- end loader -->
+
+<%- include("partials/header")%>
+<!-- end header inner -->
+<!-- team -->
+<div class="team">
+  <div class="container_with">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="titlepage text_align_center">
+          <span>05</span>
+          <h2>Our Blog</h2>
+        </div>
+      </div>
+
+      <% for (user of users) { %> <%- include("partials/user", {users} )%> <% }
+      %>
+    </div>
+  </div>
+</div>
+<!-- end team -->
+<!-- end footer -->
+<%- include("partials/footer")%>
