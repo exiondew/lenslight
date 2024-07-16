@@ -101,11 +101,15 @@ const getAUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
 
+        const inFollowers = user.followers.some((follower) => {
+            return follower.equals(res.locals.user._id)
+        })
+
         const photos = await Photo.find({
             user: req.params.id,
         });
 
-        res.render("user", {user, photos});
+        res.render("user", {user, photos, inFollowers});
     } catch (err) {
         res.status(500).json({
             success: false, message: err,
@@ -124,7 +128,7 @@ const follow = async (req, res) => {
             new: true
         });
 
-        user = await User.findByIdAndUpdate(req.params.id, {
+        user = await User.findByIdAndUpdate(res.locals.user._id, {
             $push: {
                 followings: req.params.id,
             }
@@ -132,10 +136,7 @@ const follow = async (req, res) => {
             new: true
         })
 
-        res.status(200).json({
-            success: true,
-            user
-        });
+        res.status(200).redirect(`/users/${req.params.id}`);
     } catch (err) {
         res.status(500).json({
             success: false, message: err,
@@ -154,18 +155,16 @@ const unFollow = async (req, res) => {
             new: true
         });
 
-        user = await User.findByIdAndUpdate(req.params.id, {
+        user = await User.findByIdAndUpdate(res.locals.user._id, {
             $pull: {
                 followings: req.params.id,
             }
         }, {
             new: true
-        })
-
-        res.status(200).json({
-            success: true,
-            user
         });
+
+        res.status(200).redirect(`/users/${req.params.id}`);
+
     } catch (err) {
         res.status(500).json({
             success: false, message: err,
