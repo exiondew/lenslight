@@ -74,4 +74,41 @@ const deletePhoto = async (req, res) => {
         });
     }
 };
-export {createPhoto, getAllPhotos, getAPhoto, deletePhoto};
+
+const updatePhoto = async (req, res) => {
+    try {
+        const photo = await Photo.findById(req.params.id);
+
+        if (req.files) {
+            const photoId = photo.imageId;
+            await cloudinary.uploader.destroy(photoId);
+
+            const result = await cloudinary.uploader.upload(
+                req.files.image.tempFilePath,
+                {
+                    use_filename: true,
+                    folder: 'lenslight',
+                }
+            );
+
+            photo.url = result.secure_url;
+            photo.imageId = result.public_id;
+
+            unlinkSync(req.files.image.tempFilePath);
+        }
+
+        photo.name = req.body.name;
+        photo.description = req.body.description;
+
+        photo.save();
+
+        res.status(200).redirect(`/photos/${req.params.id}`);
+    } catch (error) {
+        res.status(500).json({
+            succeded: false,
+            error,
+        });
+    }
+};
+
+export {createPhoto, getAllPhotos, getAPhoto, deletePhoto, updatePhoto};

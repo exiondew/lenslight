@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(fileUpload({useTempFiles: true}));
 app.use(express.static("public"));
 app.use(methodOverride("_method", {
-    methods: ["GET"]
+    methods: ["GET", "POST"]
 }))
 
 // router
