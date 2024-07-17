@@ -2,7 +2,7 @@
 <!-- body -->
 <!-- loader  -->
 <div class="loader_bg">
-  <div class="loader"><img src="/images/loading.gif" alt="#" /></div>
+    <div class="loader"><img src="/images/loading.gif" alt="#"/></div>
 </div>
 <!-- end loader -->
 
@@ -12,27 +12,28 @@
 
 <!-- about -->
 <div class="about">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="titlepage text_align_left">
-          <h2><%= photo.name %></h2>
-          <p><%= photo.description %></p>
-          <a class="read_more" href="/users/<%= photo.user._id %>"
-            ><b>Artist:</b> <%= photo.user.username || "Unknown User"%></a
-          >
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="titlepage text_align_left">
+                    <h2><%= photo.name %></h2>
+                    <p><%= photo.description %></p>
+                    <a class="read_more" href="/users/<%= photo.user._id %>"
+                    ><b>Artist:</b> <%= photo.user.username || "Unknown User" %></a
+                    >
+                    <%- include("partials/pbuttons", {user: photo.user} ) %>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="about_img">
+                    <figure>
+                        <img src="<%= photo?.url || "/images/about_img.png" %>" alt="<%=
+                        photo.name %>"/>
+                    </figure>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="about_img">
-          <figure>
-            <img src="<%= photo?.url || "/images/about_img.png" %>" alt="<%=
-            photo.name %>"/>
-          </figure>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 <!-- end about -->
-<%- include("partials/footer")%>
+<%- include("partials/footer") %>

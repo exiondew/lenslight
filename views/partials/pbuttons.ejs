@@ -1,0 +1,12 @@
+<div style="margin-top: 30px">
+    <ul style="display: flex; justify-content: space-between">
+        <li>
+            <a class="read_more" style="min-width: 266px" href="#">Update</a>
+        </li>
+        <li>
+            <a class="read_more" style="min-width: 266px"
+               onclick="return confirm('Bu görseli gerçekten silmek istiyor musunuz?')"
+               href="/photos/<%= photo._id %>?_method=DELETE">Delete</a>
+        </li>
+    </ul>
+</div>
